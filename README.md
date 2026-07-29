@@ -1,43 +1,29 @@
-# Frxsty Messenger
+# Frxsty Messenger — Render Free Version
 
-A Render-ready real-time group messaging web service.
+This version uses PostgreSQL instead of SQLite, so the free web service does not need a persistent disk.
 
-## Features
+## Deploy with Render Blueprint
 
-- Sign up, log in, and log out
-- Password hashing with bcrypt
-- Create groups with generated 8-character invite codes
-- Join existing groups through a code
-- Real-time Socket.IO chat
-- Saved accounts, memberships, sessions, groups, and messages
-- Responsive desktop and mobile interface
-- SQLite persistent storage
-
-## Run locally
-
-1. Install Node.js 20 or newer.
-2. Run `npm install`.
-3. Copy `.env.example` to `.env` if you want custom settings.
-4. Run `npm start`.
-5. Open `http://localhost:3000`.
-
-## Deploy to Render with Blueprint
-
-1. Upload this project to a GitHub repository.
+1. Upload every file to the root of one GitHub repository.
 2. In Render, choose **New > Blueprint**.
 3. Select the repository.
-4. Render reads `render.yaml` and creates the web service, environment variables, health check, and persistent disk.
+4. Render reads `render.yaml` and creates the web service and PostgreSQL database.
+5. Approve the Blueprint and deploy.
 
-## Deploy manually on Render
+## Important free database limit
+
+Render's free PostgreSQL database currently expires after 30 days. For permanent storage, upgrade the database or connect another long-term PostgreSQL provider and set its URL as `DATABASE_URL`.
+
+## Manual web-service settings
 
 - Runtime: Node
 - Build command: `npm install`
 - Start command: `npm start`
 - Health check: `/health`
-- Environment variables:
-  - `NODE_ENV=production`
-  - `SESSION_SECRET=` a long random secret
-  - `DB_PATH=/var/data/messenger.db`
-- Persistent disk mount path: `/var/data`
 
-A persistent disk is required for SQLite data to survive deployments and restarts. Render may require a paid web-service plan for persistent disks. Without the disk, the app still runs, but stored data may reset after redeployment.
+Required variables:
+- `NODE_ENV=production`
+- `SESSION_SECRET=<long random private value>`
+- `DATABASE_URL=<PostgreSQL connection string>`
+
+Do not add a disk to the free web service.

@@ -1,3 +1,9 @@
+databases:
+  - name: frxsty-messenger-db
+    plan: free
+    databaseName: frxsty_messenger
+    user: frxsty_messenger
+
 services:
   - type: web
     name: frxsty-messenger
@@ -11,9 +17,7 @@ services:
         value: production
       - key: SESSION_SECRET
         generateValue: true
-      - key: DB_PATH
-        value: /var/data/messenger.db
-    disk:
-      name: messenger-data
-      mountPath: /var/data
-      sizeGB: 1
+      - key: DATABASE_URL
+        fromDatabase:
+          name: frxsty-messenger-db
+          property: connectionString
