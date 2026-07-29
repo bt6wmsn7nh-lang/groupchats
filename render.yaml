@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: frxsty-messenger
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/messenger.db
+    disk:
+      name: messenger-data
+      mountPath: /var/data
+      sizeGB: 1

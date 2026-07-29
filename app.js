@@ -1,1 +1,63 @@
-:root{--bg:#070910;--panel:#0d101a;--panel2:#121725;--line:#242b3c;--text:#f5f7ff;--muted:#8e98ae;--accent:#7c5cff;--accent2:#33d6c5;--danger:#ff5f7b}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden}button,input,textarea{font:inherit}.hidden{display:none!important}.glow{position:fixed;width:500px;height:500px;border-radius:50%;filter:blur(120px);opacity:.16;pointer-events:none}.glow-a{background:#7048ff;left:-180px;top:-160px}.glow-b{background:#00d4c4;right:-220px;bottom:-180px}.auth-wrap{min-height:100vh;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;max-width:1200px;margin:auto;padding:40px;gap:70px}.brand-panel .logo,.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-weight:900;font-size:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 12px 40px #745bff42}.eyebrow{letter-spacing:.18em;font-size:12px;color:var(--accent2);font-weight:800;margin-top:34px}.brand-panel h1{font-size:clamp(42px,6vw,76px);line-height:1.02;margin:14px 0}.brand-panel h1 span{background:linear-gradient(90deg,#9b86ff,#53e4d6);-webkit-background-clip:text;color:transparent}.brand-panel>p:not(.eyebrow){color:var(--muted);font-size:18px;max-width:600px;line-height:1.7}.feature-row{display:flex;gap:15px;flex-wrap:wrap;margin-top:30px}.feature-row b{background:#ffffff08;border:1px solid var(--line);padding:12px 16px;border-radius:999px;font-size:13px}.auth-card{background:#0d101ad9;border:1px solid var(--line);padding:28px;border-radius:28px;box-shadow:0 30px 90px #0008;backdrop-filter:blur(20px)}.tabs{display:flex;background:#080a11;padding:5px;border-radius:13px;margin-bottom:28px}.tabs button{flex:1;border:0;background:transparent;color:var(--muted);padding:11px;border-radius:9px;cursor:pointer}.tabs button.active{background:var(--panel2);color:#fff}.auth-card h2{margin:0 0 8px;font-size:28px}.auth-card form>p{color:var(--muted);margin:0 0 24px}.auth-card label{display:grid;gap:8px;font-size:13px;font-weight:700;margin:18px 0;color:#dce2f0}.auth-card input,.modal input{width:100%;background:#080b12;border:1px solid var(--line);color:white;padding:14px 15px;border-radius:12px;outline:none}.auth-card input:focus,.modal input:focus,textarea:focus{border-color:var(--accent)}.primary{width:100%;border:0;border-radius:12px;padding:14px;background:linear-gradient(135deg,var(--accent),#5d7bff);color:white;font-weight:800;cursor:pointer}.error{color:var(--danger)!important;min-height:18px;font-size:13px}.app{height:100vh;display:grid;grid-template-columns:320px 1fr;padding:14px;gap:14px}.sidebar,.chat-panel{background:#0b0e17dd;border:1px solid var(--line);border-radius:22px;overflow:hidden;backdrop-filter:blur(20px)}.sidebar{padding:18px;display:flex;flex-direction:column}.side-top{display:flex;align-items:center;gap:12px;padding:4px 4px 20px}.logo.small{width:42px;height:42px;border-radius:13px;font-size:19px}.side-top div:last-child{display:grid}.side-top span,.user-card span{color:var(--muted);font-size:12px}.user-card{display:flex;align-items:center;gap:10px;background:var(--panel2);border:1px solid var(--line);padding:11px;border-radius:15px}.avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#ff6b9d,#7d5cff);display:grid;place-items:center;font-weight:800}.user-card>div:nth-child(2){display:grid;flex:1}.user-card button,.groups-head button{background:transparent;border:0;color:var(--muted);font-size:20px;cursor:pointer}.group-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}.group-actions button{border:1px solid var(--line);background:#111521;color:#dbe1ef;border-radius:12px;padding:11px 8px;font-size:12px;font-weight:700;cursor:pointer}.group-actions button:hover{border-color:var(--accent)}.groups-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.1em;padding:10px 5px}.group-list{overflow-y:auto;display:grid;gap:7px}.group-item{display:flex;align-items:center;gap:11px;padding:11px;border-radius:13px;cursor:pointer;border:1px solid transparent}.group-item:hover,.group-item.active{background:var(--panel2);border-color:var(--line)}.group-icon{width:40px;height:40px;border-radius:13px;background:#242a3a;display:grid;place-items:center;font-weight:800}.group-meta{min-width:0;flex:1}.group-meta strong,.group-meta span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.group-meta span{color:var(--muted);font-size:12px;margin-top:4px}.chat-panel{position:relative}.empty-state{height:100%;display:grid;place-content:center;text-align:center;color:var(--muted)}.empty-state h2{color:white;margin-bottom:4px}.empty-icon{font-size:54px}.chat-view{height:100%;display:grid;grid-template-rows:auto 1fr auto}.chat-header{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line)}.chat-header h2{margin:0 0 5px}.chat-header p{margin:0;color:var(--muted);font-size:12px}.chat-header p button{border:0;background:transparent;color:var(--accent2);font-weight:800;cursor:pointer}.chat-header>button{display:none}.messages{overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:14px}.message{display:flex;gap:10px;max-width:760px}.message.mine{align-self:flex-end;flex-direction:row-reverse}.msg-avatar{width:34px;height:34px;border-radius:11px;background:#242a3a;display:grid;place-items:center;flex:none;font-size:12px;font-weight:800}.bubble{background:#151a28;border:1px solid var(--line);padding:10px 13px;border-radius:6px 16px 16px 16px}.mine .bubble{background:linear-gradient(135deg,#6f50ef,#536bdb);border:0;border-radius:16px 6px 16px 16px}.msg-top{display:flex;gap:10px;align-items:center;margin-bottom:5px}.msg-top strong{font-size:12px}.msg-top span{font-size:10px;color:#a7afc1}.bubble p{margin:0;line-height:1.45;overflow-wrap:anywhere;white-space:pre-wrap}.composer{padding:16px 20px;display:flex;gap:10px;border-top:1px solid var(--line)}.composer textarea{flex:1;resize:none;background:#101522;border:1px solid var(--line);border-radius:15px;color:white;padding:13px 15px;outline:none;max-height:140px}.composer button{width:48px;border:0;border-radius:14px;background:var(--accent);color:white;font-size:19px;cursor:pointer}.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:20px;z-index:10}.modal-card{width:min(420px,100%);background:#10141f;border:1px solid var(--line);border-radius:22px;padding:25px;position:relative}.modal-card h2{margin:0 0 8px}.modal-card>p{color:var(--muted);line-height:1.5}.close{position:absolute;right:14px;top:12px;background:transparent;border:0;color:var(--muted);font-size:26px;cursor:pointer}.modal input{margin:10px 0}.toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,30px);background:#171c29;border:1px solid var(--line);padding:11px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:800px){body{overflow:auto}.auth-wrap{grid-template-columns:1fr;padding:24px}.brand-panel{display:none}.app{grid-template-columns:1fr;padding:0;height:100dvh}.sidebar{position:fixed;z-index:5;left:0;top:0;bottom:0;width:min(320px,88vw);border-radius:0;transform:translateX(-105%);transition:.25s}.sidebar.open{transform:translateX(0)}.chat-panel{border-radius:0}.chat-header>button{display:block;background:#151a28;border:1px solid var(--line);color:white;border-radius:10px;padding:8px 11px}.messages{padding:16px}.composer{padding:11px}.message{max-width:90%}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090b12" />
+  <title>Frxsty Messenger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="glow glow-a"></div><div class="glow glow-b"></div>
+
+  <main id="authView" class="auth-wrap">
+    <section class="brand-panel">
+      <div class="logo">F</div>
+      <p class="eyebrow">REAL-TIME MESSAGING</p>
+      <h1>Chat with your people.<br><span>Anywhere.</span></h1>
+      <p>Create private groups, share an invite code, and keep every conversation saved.</p>
+      <div class="feature-row"><b>⚡ Live</b><b>🔒 Private codes</b><b>💾 Saved chats</b></div>
+    </section>
+
+    <section class="auth-card">
+      <div class="tabs"><button id="loginTab" class="active">Log in</button><button id="signupTab">Sign up</button></div>
+      <form id="authForm">
+        <h2 id="authTitle">Welcome back</h2>
+        <p id="authSub">Log in to continue chatting.</p>
+        <label>Username<input id="username" autocomplete="username" maxlength="20" required placeholder="Your username"></label>
+        <label>Password<input id="password" type="password" autocomplete="current-password" maxlength="72" required placeholder="At least 8 characters"></label>
+        <p id="authError" class="error"></p>
+        <button class="primary" type="submit" id="authButton">Log in</button>
+      </form>
+    </section>
+  </main>
+
+  <main id="appView" class="app hidden">
+    <aside class="sidebar">
+      <div class="side-top"><div class="logo small">F</div><div><strong>Frxsty</strong><span>Messenger</span></div></div>
+      <div class="user-card"><div id="avatar" class="avatar"></div><div><strong id="currentUser"></strong><span>Online</span></div><button id="logoutBtn" title="Log out">↪</button></div>
+      <div class="group-actions"><button id="createBtn">＋ Create group</button><button id="joinBtn">⌁ Join with code</button></div>
+      <div class="groups-head"><span>Your groups</span><button id="refreshBtn">↻</button></div>
+      <div id="groupList" class="group-list"></div>
+    </aside>
+
+    <section class="chat-panel">
+      <div id="emptyState" class="empty-state"><div class="empty-icon">💬</div><h2>Select a group</h2><p>Create a new group or join one using its invite code.</p></div>
+      <div id="chatView" class="chat-view hidden">
+        <header class="chat-header"><div><h2 id="groupName"></h2><p>Invite code: <button id="copyCode"></button></p></div><button id="mobileGroups">Groups</button></header>
+        <div id="messages" class="messages"></div>
+        <form id="messageForm" class="composer"><textarea id="messageInput" maxlength="1000" rows="1" placeholder="Write a message..."></textarea><button type="submit">➤</button></form>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden"><div class="modal-card"><button id="closeModal" class="close">×</button><h2 id="modalTitle"></h2><p id="modalText"></p><form id="modalForm"><input id="modalInput" maxlength="40" required><p id="modalError" class="error"></p><button class="primary" type="submit" id="modalSubmit"></button></form></div></div>
+  <div id="toast" class="toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

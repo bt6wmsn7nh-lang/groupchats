@@ -1,36 +1,63 @@
-const $ = (s) => document.querySelector(s);
-const authView = $('#authView'), appView = $('#appView'), authForm = $('#authForm');
-let authMode = 'login', currentUser = null, groups = [], activeGroup = null, socket = null;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090b12" />
+  <title>Frxsty Messenger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="glow glow-a"></div><div class="glow glow-b"></div>
 
-function api(url, options = {}) {
-  return fetch(url, { headers: { 'Content-Type': 'application/json' }, ...options }).then(async r => {
-    const data = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(data.error || 'Something went wrong.');
-    return data;
-  });
-}
-function escapeHTML(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-function toast(text){const t=$('#toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
-function setAuthMode(mode){authMode=mode;$('#loginTab').classList.toggle('active',mode==='login');$('#signupTab').classList.toggle('active',mode==='signup');$('#authTitle').textContent=mode==='login'?'Welcome back':'Create your account';$('#authSub').textContent=mode==='login'?'Log in to continue chatting.':'Choose a username and secure password.';$('#authButton').textContent=mode==='login'?'Log in':'Create account';$('#password').autocomplete=mode==='login'?'current-password':'new-password';$('#authError').textContent='';}
-$('#loginTab').onclick=()=>setAuthMode('login');$('#signupTab').onclick=()=>setAuthMode('signup');
+  <main id="authView" class="auth-wrap">
+    <section class="brand-panel">
+      <div class="logo">F</div>
+      <p class="eyebrow">REAL-TIME MESSAGING</p>
+      <h1>Chat with your people.<br><span>Anywhere.</span></h1>
+      <p>Create private groups, share an invite code, and keep every conversation saved.</p>
+      <div class="feature-row"><b>⚡ Live</b><b>🔒 Private codes</b><b>💾 Saved chats</b></div>
+    </section>
 
-authForm.onsubmit=async e=>{e.preventDefault();$('#authError').textContent='';try{const data=await api(`/api/${authMode}`,{method:'POST',body:JSON.stringify({username:$('#username').value,password:$('#password').value})});startApp(data.user)}catch(err){$('#authError').textContent=err.message}};
+    <section class="auth-card">
+      <div class="tabs"><button id="loginTab" class="active">Log in</button><button id="signupTab">Sign up</button></div>
+      <form id="authForm">
+        <h2 id="authTitle">Welcome back</h2>
+        <p id="authSub">Log in to continue chatting.</p>
+        <label>Username<input id="username" autocomplete="username" maxlength="20" required placeholder="Your username"></label>
+        <label>Password<input id="password" type="password" autocomplete="current-password" maxlength="72" required placeholder="At least 8 characters"></label>
+        <p id="authError" class="error"></p>
+        <button class="primary" type="submit" id="authButton">Log in</button>
+      </form>
+    </section>
+  </main>
 
-async function startApp(user){currentUser=user;authView.classList.add('hidden');appView.classList.remove('hidden');$('#currentUser').textContent=user.username;$('#avatar').textContent=user.username[0].toUpperCase();socket=io();socket.on('new-message',({groupId,message})=>{if(activeGroup?.id===groupId){appendMessage(message);scrollBottom()}loadGroups()});await loadGroups();}
+  <main id="appView" class="app hidden">
+    <aside class="sidebar">
+      <div class="side-top"><div class="logo small">F</div><div><strong>Frxsty</strong><span>Messenger</span></div></div>
+      <div class="user-card"><div id="avatar" class="avatar"></div><div><strong id="currentUser"></strong><span>Online</span></div><button id="logoutBtn" title="Log out">↪</button></div>
+      <div class="group-actions"><button id="createBtn">＋ Create group</button><button id="joinBtn">⌁ Join with code</button></div>
+      <div class="groups-head"><span>Your groups</span><button id="refreshBtn">↻</button></div>
+      <div id="groupList" class="group-list"></div>
+    </aside>
 
-async function loadGroups(){const data=await api('/api/groups');groups=data.groups;renderGroups();if(activeGroup){const fresh=groups.find(g=>g.id===activeGroup.id);if(fresh)activeGroup={...activeGroup,...fresh}}}
-function renderGroups(){const list=$('#groupList');list.innerHTML=groups.length?'':'<p style="color:#7f899f;font-size:13px;padding:8px">No groups yet.</p>';groups.forEach(g=>{const el=document.createElement('div');el.className='group-item'+(activeGroup?.id===g.id?' active':'');el.innerHTML=`<div class="group-icon">${escapeHTML(g.name[0].toUpperCase())}</div><div class="group-meta"><strong>${escapeHTML(g.name)}</strong><span>${escapeHTML(g.last_message||`${g.member_count} member${g.member_count===1?'':'s'}`)}</span></div>`;el.onclick=()=>openGroup(g.id);list.appendChild(el)})}
-async function openGroup(id){const data=await api(`/api/groups/${id}/messages`);activeGroup=data.group;$('#emptyState').classList.add('hidden');$('#chatView').classList.remove('hidden');$('#groupName').textContent=activeGroup.name;$('#copyCode').textContent=activeGroup.code;$('#messages').innerHTML='';data.messages.forEach(appendMessage);socket.emit('join-group',id);renderGroups();scrollBottom();$('.sidebar').classList.remove('open')}
-function appendMessage(m){const mine=m.user_id===currentUser.id;const el=document.createElement('div');el.className='message'+(mine?' mine':'');const time=new Date(m.created_at.replace(' ','T')+'Z').toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});el.innerHTML=`<div class="msg-avatar">${escapeHTML(m.username[0].toUpperCase())}</div><div class="bubble"><div class="msg-top"><strong>${escapeHTML(m.username)}</strong><span>${time}</span></div><p>${escapeHTML(m.body)}</p></div>`;$('#messages').appendChild(el)}
-function scrollBottom(){const m=$('#messages');m.scrollTop=m.scrollHeight}
+    <section class="chat-panel">
+      <div id="emptyState" class="empty-state"><div class="empty-icon">💬</div><h2>Select a group</h2><p>Create a new group or join one using its invite code.</p></div>
+      <div id="chatView" class="chat-view hidden">
+        <header class="chat-header"><div><h2 id="groupName"></h2><p>Invite code: <button id="copyCode"></button></p></div><button id="mobileGroups">Groups</button></header>
+        <div id="messages" class="messages"></div>
+        <form id="messageForm" class="composer"><textarea id="messageInput" maxlength="1000" rows="1" placeholder="Write a message..."></textarea><button type="submit">➤</button></form>
+      </div>
+    </section>
+  </main>
 
-$('#messageForm').onsubmit=e=>{e.preventDefault();const input=$('#messageInput'),body=input.value.trim();if(!body||!activeGroup)return;socket.emit('send-message',{groupId:activeGroup.id,body},res=>{if(res?.error)toast(res.error)});input.value='';input.style.height='auto'};
-$('#messageInput').addEventListener('input',e=>{e.target.style.height='auto';e.target.style.height=Math.min(e.target.scrollHeight,140)+'px'});$('#messageInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#messageForm').requestSubmit()}});
+  <div id="modal" class="modal hidden"><div class="modal-card"><button id="closeModal" class="close">×</button><h2 id="modalTitle"></h2><p id="modalText"></p><form id="modalForm"><input id="modalInput" maxlength="40" required><p id="modalError" class="error"></p><button class="primary" type="submit" id="modalSubmit"></button></form></div></div>
+  <div id="toast" class="toast"></div>
 
-let modalMode='create';function showModal(mode){modalMode=mode;$('#modal').classList.remove('hidden');$('#modalError').textContent='';$('#modalInput').value='';$('#modalTitle').textContent=mode==='create'?'Create a group':'Join a group';$('#modalText').textContent=mode==='create'?'Give your group a name. A private invite code will be generated automatically.':'Enter the 8-character invite code shared by a group member.';$('#modalInput').placeholder=mode==='create'?'Group name':'ABCD2345';$('#modalSubmit').textContent=mode==='create'?'Create group':'Join group';setTimeout(()=>$('#modalInput').focus(),50)}
-$('#createBtn').onclick=()=>showModal('create');$('#joinBtn').onclick=()=>showModal('join');$('#closeModal').onclick=()=>$('#modal').classList.add('hidden');$('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').classList.add('hidden')};
-$('#modalForm').onsubmit=async e=>{e.preventDefault();try{const value=$('#modalInput').value;const data=modalMode==='create'?await api('/api/groups',{method:'POST',body:JSON.stringify({name:value})}):await api('/api/groups/join',{method:'POST',body:JSON.stringify({code:value})});$('#modal').classList.add('hidden');await loadGroups();await openGroup(data.group.id);toast(modalMode==='create'?`Group created — code ${data.group.code}`:'Joined group!')}catch(err){$('#modalError').textContent=err.message}};
-$('#copyCode').onclick=async()=>{await navigator.clipboard.writeText(activeGroup.code);toast('Invite code copied')};$('#refreshBtn').onclick=loadGroups;$('#mobileGroups').onclick=()=>$('.sidebar').classList.toggle('open');
-$('#logoutBtn').onclick=async()=>{await api('/api/logout',{method:'POST'});location.reload()};
-
-api('/api/me').then(d=>{if(d.user)startApp(d.user)});
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
